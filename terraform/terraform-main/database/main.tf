@@ -20,7 +20,7 @@ module "administrator_login_password" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "${random_uuid.resource_group_name.result}-rg"
+  name     = random_uuid.resource_group_name.result
   location = "Central US"
 }
 
