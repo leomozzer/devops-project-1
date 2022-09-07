@@ -81,9 +81,9 @@ resource "azurerm_linux_web_app" "webapp" {
       node_version = "16-lts"
     }
   }
-  app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = 1
-  }
+  # app_settings = {
+  #   "WEBSITE_RUN_FROM_PACKAGE" = 1
+  # }
   #zip_deploy_file = "../../../app/app.zip"
 }
 
@@ -96,6 +96,9 @@ resource "azurerm_app_service_source_control" "sourcecontrol" {
   use_manual_integration = true
   use_mercurial          = false
   //use_local_git = true #"../../../app"
+  # github_action_configuration {
+
+  # }
 }
 
 # resource "azurerm_app_service" "backwebapp" {
