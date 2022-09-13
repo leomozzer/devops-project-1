@@ -53,6 +53,14 @@ resource "azurerm_resource_group" "rg" {
 #   collation           = "utf8_unicode_ci"
 # }
 
+resource "azurerm_container_registry" "acr" {
+  name                = "${module.resource_naming.result}acr"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  sku                 = "Basic"
+  admin_enabled       = true
+}
+
 # Create the Linux App Service Plan
 #https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_plan
 #This resource has been deprecated in version 3.0 of the AzureRM provider and will be removed in version 4.0. Please use azurerm_service_plan resource instead.
@@ -75,35 +83,55 @@ resource "azurerm_linux_web_app" "webapp" {
   service_plan_id     = azurerm_service_plan.appserviceplan.id
   https_only          = true
   site_config {
-    minimum_tls_version = "1.2"
-    always_on           = false
+    #linux_fx_version = "DOCKER|api:latest" # "DOCKER|${var.registry_name}:${var.tag_name}"
+    always_on = false
+    # minimum_tls_version = "1.2"
+    # always_on           = false
+    # application_stack {
+    #   node_version = "16-lts"
+    # }
     application_stack {
-      node_version = "16-lts"
+      docker_image     = "${azurerm_container_registry.acr.login_server}/api"
+      docker_image_tag = "latest"
+      node_version     = "16-lts"
     }
   }
-  # app_settings = {
-  #   "WEBSITE_RUN_FROM_PACKAGE" = 1
-  # }
+  app_settings = {
+    # "WEBSITE_RUN_FROM_PACKAGE" = 1
+    WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
+
+    # Settings for private Container Registires  
+    DOCKER_REGISTRY_SERVER_URL      = "https://${azurerm_container_registry.acr.login_server}"
+    DOCKER_REGISTRY_SERVER_USERNAME = azurerm_container_registry.acr.admin_username
+    DOCKER_REGISTRY_SERVER_PASSWORD = azurerm_container_registry.acr.admin_password
+
+  }
   # zip_deploy_file = "../../../app/app.zip"
 }
 
 #Deploy code from a public GitHub repo
-resource "azurerm_app_service_source_control" "sourcecontrol" {
-  app_id   = azurerm_linux_web_app.webapp.id
-  repo_url = "https://github.com/Azure-Samples/nodejs-docs-hello-world"
-  branch   = "master"
+# resource "azurerm_app_service_source_control" "sourcecontrol" {
+#   app_id = azurerm_linux_web_app.webapp.id
+#   #id = azurerm_container_registry.acr.admin_username
+#   container_configuration {
+#     image_name        = "api"
+#     registry_url      = azurerm_container_registry.acr.login_server
+#     registry_password = azurerm_container_registry.acr.admin_password
+#     registry_username = azurerm_container_registry.acr.admin_username
+#   }
+#   # repo_url = "https://github.com/Azure-Samples/nodejs-docs-hello-world"
+#   # branch   = "master"
+#   # use_manual_integration = true
+#   # use_mercurial          = false
+#   //use_local_git = true #"../../../app"
+#   # github_action_configuration {
 
-  use_manual_integration = true
-  use_mercurial          = false
-  //use_local_git = true #"../../../app"
-  # github_action_configuration {
-
-  # }
-}
-
-# resource "azurerm_app_service" "backwebapp" {
-#   name                = "backwebapp20200810"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-#   app_service_plan_id = azurerm_app_service_plan.appserviceplan.id
+#   # }
 # }
+
+# # resource "azurerm_app_service" "backwebapp" {
+# #   name                = "backwebapp20200810"
+# #   location            = azurerm_resource_group.rg.location
+# #   resource_group_name = azurerm_resource_group.rg.name
+# #   app_service_plan_id = azurerm_app_service_plan.appserviceplan.id
+# # }
