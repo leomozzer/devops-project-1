@@ -150,6 +150,7 @@ provider.tf
 
 #generic
 *.zip
+pipelines
 
 
 
