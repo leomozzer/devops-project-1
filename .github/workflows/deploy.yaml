@@ -30,6 +30,7 @@ jobs:
   with-actions-template:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: "Using template"
       uses: ./.github/actions/my-action
 
