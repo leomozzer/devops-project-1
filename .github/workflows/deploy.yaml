@@ -30,10 +30,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: jungwinter/split@v2
-        id: split
-        with:
-          msg: '{{ github.repository }}'
-          separator: "/"
+      id: split
+      with:
+        msg: '{{ github.repository }}'
+        separator: "/"
 
     - uses: actions/checkout@v3
 
