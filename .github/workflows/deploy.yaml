@@ -32,7 +32,7 @@ jobs:
     - uses: jungwinter/split@v2
       id: split
       with:
-        msg: '{{ github.repository }}'
+        msg: ${{ github.repository }}
         separator: "/"
 
     - name: Test variable
