@@ -29,13 +29,20 @@ jobs:
   dev:
     runs-on: ubuntu-latest
     steps:
+    - uses: jungwinter/split@v2
+        id: split
+        with:
+          msg: '{{ github.repository }}'
+          separator: "/"
+
     - uses: actions/checkout@v3
+
     - name: "Azure setup"
       uses: ./.github/actions/azure-setup
       with: 
         AZURE_SP: ${{ secrets.AZURE_SP }}
-        RESOURCE_GROUP_NAME: ${{ github.job }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
         RESOURCE_GROUP_LOCATION: "centralus"
-        TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}"'
+        TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" RunNumber=${{ github.run_number }}'
         STORAGE_ACCOUNT_NAME: stac${{ github.job }}
 
