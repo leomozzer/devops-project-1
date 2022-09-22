@@ -35,6 +35,11 @@ jobs:
         msg: '{{ github.repository }}'
         separator: "/"
 
+    - name: Test variable
+        run: |
+          echo ${{ steps.split.outputs._0 }}
+          echo ${{ steps.split.outputs._1 }}
+
     - uses: actions/checkout@v3
 
     - name: "Azure setup"
