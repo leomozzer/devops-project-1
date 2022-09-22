@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  build-and-deploy:
+  without-actions-template:
     runs-on: ubuntu-latest
     steps:
 
@@ -26,6 +26,24 @@ jobs:
         azcliversion: 2.30.0
         inlineScript: |
           az group list
+
+  with-actions-template:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Using template"
+      uses: ./.github/actions/my-action
+
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_SP }}
+
+    # - name: Azure CLI script
+    #   uses: azure/CLI@v1
+    #   with:
+    #     azcliversion: 2.30.0
+    #     inlineScript: |
+    #       az group list
 
 
 # jobs:
