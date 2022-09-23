@@ -11,7 +11,7 @@ runs:
     - name: "Check inputs"
       run: ls -ltr
       shell: bash
-      working-directory: ${{ inputs.WORKING_DIR }}
+      #working-directory: ${{ inputs.WORKING_DIR }}
 
     # - name: Azure Login
     #   uses: azure/login@v1
