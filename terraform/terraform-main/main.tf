@@ -6,19 +6,6 @@ module "resource_naming" {
   length = 7
 }
 
-module "administrator_login" {
-  source = "../terraform-modules/random"
-  length = 11
-}
-
-module "administrator_login_password" {
-  source  = "../terraform-modules/random"
-  length  = 23
-  upper   = true
-  special = true
-  numeric = true
-}
-
 resource "azurerm_resource_group" "rg" {
   name     = random_uuid.resource_group_name.result
   location = "Central US"
@@ -29,8 +16,8 @@ resource "azurerm_mysql_server" "mysql_server" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
-  administrator_login          = "mysqladminun" # module.administrator_login.result
-  administrator_login_password = "H@Sh1CoR3!"   # module.administrator_login_password.result
+  administrator_login          = "mysqladminun"
+  administrator_login_password = "H@Sh1CoR3!"
 
   sku_name   = "B_Gen5_2"
   storage_mb = 5120
