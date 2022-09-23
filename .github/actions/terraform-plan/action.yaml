@@ -5,37 +5,29 @@ inputs:
     description: "working directory"
     required: true
 
-jobs:
-  without-actions-template:
-    runs-on: ubuntu-latest
-    steps:
+runs:
+  using: "composite"
+  steps:
+    - name: "Check inputs"
+      run: ls -ltr
 
-    - name: "Check workspace"
-      run: echo "Hello there"
-
-# runs:
-#   using: "composite"
-#   steps:
-#     - name: "Check inputs"
-#       run: echo ${{ inputs.WORKING_DIR }}
-
-#     - name: Azure Login
-#       uses: azure/login@v1
-#       with:
-#         creds: ${{ inputs.AZURE_SP }}
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ inputs.AZURE_SP }}
     
-#     - name: Azure Login
-#       uses: azure/login@v1
-#       with:
-#         creds: ${{ inputs.AZURE_SP }}
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ inputs.AZURE_SP }}
 
-#     - uses: hashicorp/setup-terraform@v2
+    # - uses: hashicorp/setup-terraform@v2
 
-#     - name: Terraform fmt
-#       id: fmt
-#       run: terraform fmt -check
-#       continue-on-error: false
+    # - name: Terraform fmt
+    #   id: fmt
+    #   run: terraform fmt -check
+    #   continue-on-error: false
 
-#     - name: Terraform Init
-#       id: init
-#       run: terraform init
+    # - name: Terraform Init
+    #   id: init
+    #   run: terraform init
