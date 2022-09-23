@@ -35,11 +35,6 @@ jobs:
         msg: ${{ github.repository }}
         separator: "/"
 
-    - name: Test variable
-      run: |
-        echo ${{ steps.split.outputs._0 }}
-        echo ${{ steps.split.outputs._1 }}
-
     - uses: actions/checkout@v3
 
     - name: "Azure setup"
@@ -48,6 +43,11 @@ jobs:
         AZURE_SP: ${{ secrets.AZURE_SP }}
         RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
         RESOURCE_GROUP_LOCATION: "centralus"
-        TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" RunNumber=${{ github.run_number }}'
+        TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
         STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+
+    - name: "Terraform plan"
+      uses: ./.github/actions/terraform-plan
+      with:
+        WORKING_DIR: ${{ github.workspace }}//terraform/terraform-main
 
