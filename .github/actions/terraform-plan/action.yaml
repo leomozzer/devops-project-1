@@ -10,6 +10,7 @@ runs:
   steps:
     - name: "Check inputs"
       run: ls -ltr
+      shell: bash
 
     # - name: Azure Login
     #   uses: azure/login@v1
