@@ -33,11 +33,6 @@ runs:
       uses: azure/login@v1
       with:
         creds: ${{ inputs.AZURE_SP }}
-    
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ inputs.AZURE_SP }}
 
     - name: Create Provider file
       shell: pwsh
