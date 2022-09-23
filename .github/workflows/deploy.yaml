@@ -28,9 +28,6 @@ jobs:
 
   dev:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}/terraform/terraform-main
     steps:
     - uses: jungwinter/split@v2
       id: split
