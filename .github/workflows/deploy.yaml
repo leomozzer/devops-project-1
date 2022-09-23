@@ -46,15 +46,6 @@ jobs:
         TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
         STORAGE_ACCOUNT_NAME: stac${{ github.job }}
 
-    - name: "Check workspace"
-      run: echo ${{ github.workspace }}
-
-    - name: "Check inputs"
-      run: echo ${{ github.workspace }}//terraform/terraform-main
-
-    - name: "Check inputs"
-      run: echo ${{ github.workspace }}/terraform/terraform-main
-
     - name: "Terraform plan"
       uses: ./.github/actions/terraform-plan
       with:
