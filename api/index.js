@@ -5,9 +5,9 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ 'extended': true }))
 
-// app.use((req, res, next) => {
-//     next();
-// });
+app.use((req, res, next) => {
+    next();
+});
 
 app.get('/', (req, res) => {
     return res.json({
@@ -16,10 +16,10 @@ app.get('/', (req, res) => {
     })
 })
 
-// app.use(require('./routes/database'));
+app.use(require('./routes/database'));
 
 
-app.listen(80, () => {
+app.listen(process.env.APP_PORT, () => {
     console.log(`Listening on port ${process.env.APP_PORT}`);
     console.log(`Mysql host: ${process.env.MYSQL_HOST}`)
 })

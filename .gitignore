@@ -152,5 +152,6 @@ provider.tf
 *.zip
 pipelines
 
-
+#frontend
+frontend
 
