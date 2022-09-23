@@ -9,7 +9,7 @@ runs:
   using: "composite"
   steps:
     - name: "Check inputs"
-      run: echo ${{ inputs.WORKING_DIR }}
+      run: ls -ltr
       shell: bash
       working-directory: ${{ inputs.WORKING_DIR }}
 
