@@ -12,6 +12,9 @@ defaults:
 runs:
   using: "composite"
   steps:
+    - name: "Check inputs"
+      run: echo ${{ inputs.WORKING_DIR }}
+
     - name: Azure Login
       uses: azure/login@v1
       with:
