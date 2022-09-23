@@ -58,5 +58,5 @@ jobs:
     - name: "Terraform plan"
       uses: ./.github/actions/terraform-plan
       with:
-        WORKING_DIR: ${{ github.workspace }}//terraform/terraform-main
+        WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
 
