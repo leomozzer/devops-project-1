@@ -68,5 +68,6 @@ runs:
       id: plan
       run: terraform plan -no-color
       continue-on-error: false
+      shell: bash
       working-directory: ${{ inputs.WORKING_DIR }}
         
