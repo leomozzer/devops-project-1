@@ -9,7 +9,7 @@ runs:
   using: "composite"
   steps:
     - name: "Check inputs"
-      run: ls -ltr
+      run: echo ${{ inputs.WORKING_DIR }}
       shell: bash
 
     # - name: Azure Login
