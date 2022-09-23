@@ -63,7 +63,7 @@ jobs:
         CONTAINER_NAME: "states"
         STATE_FILE: "terraform.tfstate"
 
-    - name: "Terraform plan"
+    - name: "Terraform apply"
       uses: ./.github/actions/terraform-apply
       with:
         WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main

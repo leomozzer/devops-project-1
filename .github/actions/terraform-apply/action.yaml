@@ -25,15 +25,15 @@ runs:
   using: "composite"
   steps:
 
-    - name: Create Provider file
-      shell: pwsh
-      run: |
-        New-Item -Path "${{ inputs.WORKING_DIR }}" -Name "backend.tf" -Value "terraform {`r`nbackend `"azurerm`" {`r`nresource_group_name = `"${{ inputs.RESOURCE_GROUP_NAME }}`"`r`nstorage_account_name = `"${{ inputs.STORAGE_ACCOUNT_NAME }}`"`r`ncontainer_name = `"${{ inputs.CONTAINER_NAME }}`"`r`nkey = `"${{ inputs.STATE_FILE }}`"`r`n}`r`n}`r`n"
+    # - name: Create Provider file
+    #   shell: pwsh
+    #   run: |
+    #     New-Item -Path "${{ inputs.WORKING_DIR }}" -Name "backend.tf" -Value "terraform {`r`nbackend `"azurerm`" {`r`nresource_group_name = `"${{ inputs.RESOURCE_GROUP_NAME }}`"`r`nstorage_account_name = `"${{ inputs.STORAGE_ACCOUNT_NAME }}`"`r`ncontainer_name = `"${{ inputs.CONTAINER_NAME }}`"`r`nkey = `"${{ inputs.STATE_FILE }}`"`r`n}`r`n}`r`n"
 
-    - name: Create Provider file
-      shell: pwsh
-      run: |
-        New-Item -Path "${{ inputs.WORKING_DIR }}" -Name "azurerm_provider.tf" -Value "provider `"azurerm`"{`r`nskip_provider_registration = true`r`nfeatures {}`r`n}"
+    # - name: Create Provider file
+    #   shell: pwsh
+    #   run: |
+    #     New-Item -Path "${{ inputs.WORKING_DIR }}" -Name "azurerm_provider.tf" -Value "provider `"azurerm`"{`r`nskip_provider_registration = true`r`nfeatures {}`r`n}"
 
     - uses: hashicorp/setup-terraform@v2
 
@@ -43,7 +43,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.WORKING_DIR }}
 
-    - name: Terraform Plan
+    - name: Terraform Apply
       id: plan
       run: terraform apply -auto-approve
       continue-on-error: false
