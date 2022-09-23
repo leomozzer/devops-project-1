@@ -84,6 +84,5 @@ jobs:
 
     - name: Get color
       run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
-      shell: bash
         
 
