@@ -59,4 +59,10 @@ jobs:
       uses: ./.github/actions/terraform-plan
       with:
         WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
+        AZURE_SP: ${{ secrets.AZURE_SP }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+        CONTAINER_NAME: "states"
+        STATE_FILE: "terraform.tfstate"
+        
 
