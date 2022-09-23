@@ -1,0 +1,17 @@
+{
+    "acr_password": {
+        "sensitive": true,
+        "type": "string",
+        "value": "blaaaa"
+    },
+    "acr_server": {
+        "sensitive": false,
+        "type": "string",
+        "value": "awmqeylacr.azurecr.io"
+    },
+    "acr_username": {
+        "sensitive": false,
+        "type": "string",
+        "value": "fooo"
+    }
+}
