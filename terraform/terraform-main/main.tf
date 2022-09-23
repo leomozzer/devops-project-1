@@ -2,17 +2,17 @@ resource "random_uuid" "resource_group_name" {
 }
 
 module "resource_naming" {
-  source = "../../terraform-modules/random"
+  source = "../terraform-modules/random"
   length = 7
 }
 
 module "administrator_login" {
-  source = "../../terraform-modules/random"
+  source = "../terraform-modules/random"
   length = 11
 }
 
 module "administrator_login_password" {
-  source  = "../../terraform-modules/random"
+  source  = "../terraform-modules/random"
   length  = 23
   upper   = true
   special = true
