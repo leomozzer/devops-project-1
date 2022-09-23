@@ -39,10 +39,10 @@ runs:
     #   with:
     #     creds: ${{ inputs.AZURE_SP }}
 
-    - name: Create Provider file
-      shell: pwsh
-      run: |
-        New-Item -Path "${{ inputs.WORKING_DIR }}" -Name "backend.tf" -Value "terraform {`r`nbackend `"azurerm`" {`r`nresource_group_name = ${{ inputs.RESOURCE_GROUP_NAME }}`r`nstorage_account_name = ${{ inputs.STORAGE_ACCOUNT_NAME }}`r`ncontainer_name = ${{ inputs.CONTAINER_NAME }}`r`nkey = ${{ inputs.STATE_FILE }}}`r`n}"
+    # - name: Create Provider file
+    #   shell: pwsh
+    #   run: |
+    #     New-Item -Path "${{ inputs.WORKING_DIR }}" -Name "backend.tf" -Value "terraform {`r`nbackend `"azurerm`" {`r`nresource_group_name = ${{ inputs.RESOURCE_GROUP_NAME }}`r`nstorage_account_name = ${{ inputs.STORAGE_ACCOUNT_NAME }}`r`ncontainer_name = ${{ inputs.CONTAINER_NAME }}`r`nkey = ${{ inputs.STATE_FILE }}}`r`n}"
 
     - uses: hashicorp/setup-terraform@v2
 
