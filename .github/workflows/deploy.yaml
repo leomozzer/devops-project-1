@@ -78,10 +78,12 @@ jobs:
       run: |
         get_acr_name=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
         echo $get_acr_name
+        echo '::set-output name=ACR_USERNAME::$get_acr_name'
       continue-on-error: false
       shell: bash
-    #echo '::set-output name=ACR_USERNAME::${get_acr_name}'
-    # - name: Get color
-    #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
+
+    - name: Get color
+      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
+      shell: bash
         
 
