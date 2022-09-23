@@ -72,5 +72,17 @@ jobs:
         STORAGE_ACCOUNT_NAME: stac${{ github.job }}
         CONTAINER_NAME: "states"
         STATE_FILE: "terraform.tfstate"
+
+    - name: "Get ACR details"
+      id: acr-details
+      run: |
+        get_acr_name=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
+        echo $get_acr_name
+        echo '::set-output name=ACR_USERNAME::$get_acr_name'
+      continue-on-error: false
+      shell: bash
+
+    - name: Get color
+      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
         
 

@@ -1,4 +1,4 @@
-name: "Terraform apply"
+name: "Terraform Plan"
 
 inputs:
   WORKING_DIR:
