@@ -44,14 +44,14 @@ runs:
       working-directory: ${{ inputs.WORKING_DIR }}
 
     - name: Terraform Apply
-      id: plan
+      id: apply
       run: terraform apply -auto-approve
       continue-on-error: false
       shell: bash
       working-directory: ${{ inputs.WORKING_DIR }}
 
     - name: Terraform Output
-      id: plan
+      id: output
       run: terraform output -json > ./output.json
       continue-on-error: false
       shell: bash
