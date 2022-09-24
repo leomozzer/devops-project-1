@@ -123,12 +123,13 @@ jobs:
     # - name: Get ACR_SERVER
     #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_SERVER }}"
 
-    # - name: Docker Login - Azure Container Registry
-    #   uses: Azure/docker-login@v1
-    #   with:
-    #     username: ${{ steps.acr-details.outputs.ACR_USERNAME }}
-    #     password: ${{ steps.acr-details.outputs.ACR_PASSWORD }}
-    #     login-server: ${{ steps.acr-details.outputs.ACR_SERVER }}
+    - name: Docker Login - Azure Container Registry
+      uses: Azure/docker-login@v1
+      with:
+        username: $(terraform output acr_username)
+        password: $(terraform output acr_password)
+        login-server: $(terraform output acr_server)
+      working-directory: ${{ github.workspace }}/terraform/terraform-main/
         
     # - name: Build e Push no Azure Container Registry
     #   run: |
