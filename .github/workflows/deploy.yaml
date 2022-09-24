@@ -87,14 +87,14 @@ jobs:
     - name: "Get ACR details"
       run: |
         getacr=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
-        echo '$getacr'
+        echo $getacr
       continue-on-error: true
       shell: bash
 
     - name: "Get ACR details"
       id: acr-details
       run: |
-        echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+        echo ::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
       continue-on-error: true
       shell: bash
 
