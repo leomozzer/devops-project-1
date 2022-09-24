@@ -136,7 +136,7 @@ jobs:
     - name: Build e Push no Azure Container Registry
       run: |
         cd api/
-        docker build . Dockerfile --tag ${{ steps.acr-details.outputs.ACR_SERVER }}/api:latest
+        docker build . --file Dockerfile --tag ${{ steps.acr-details.outputs.ACR_SERVER }}/api:latest
         docker tag ${{ steps.acr-details.outputs.ACR_SERVER }}/api:latest ${{ steps.acr-details.outputs.ACR_SERVER }}/api:$(date +%s)
         docker push ${{ steps.acr-details.outputs.ACR_SERVER }}/api
 
