@@ -129,9 +129,9 @@ jobs:
     - name: Docker Login - Azure Container Registry
       uses: Azure/docker-login@v1
       with:
-        username: $(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
-        password: $(jq -r .acr_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)
-        login-server: $(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)
+        username: ${{ steps.acr-details.outputs.ACR_USERNAME }}
+        password: ${{ steps.acr-details.outputs.ACR_PASSWORD }}
+        login-server: ${{ steps.acr-details.outputs.ACR_SERVER }}
         
     - name: Build e Push no Azure Container Registry
       run: |
