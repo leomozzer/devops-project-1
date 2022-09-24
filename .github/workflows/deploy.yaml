@@ -110,8 +110,9 @@ jobs:
     - name: "Get ACR details"
       id: acr-details
       run: |
-        acr_username=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
         echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+        echo '::set-output name=ACR_PASSWORD::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+        echo '::set-output name=ACR_SERVER::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
       continue-on-error: true
       shell: bash
       working-directory: ${{ github.workspace }}/terraform/terraform-main/
@@ -119,18 +120,18 @@ jobs:
     - name: Get ACR_USERNAME
       run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
 
-    # - name: Get ACR_PASSWORD
-    #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_PASSWORD }}"
+    - name: Get ACR_PASSWORD
+      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_PASSWORD }}"
 
-    # - name: Get ACR_SERVER
-    #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_SERVER }}"
+    - name: Get ACR_SERVER
+      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_SERVER }}"
 
-    # - name: Docker Login - Azure Container Registry
-    #   uses: Azure/docker-login@v1
-    #   with:
-    #     username: $(terraform output acr_username)
-    #     password: $(terraform output acr_password)
-    #     login-server: $(terraform output acr_server)
+    - name: Docker Login - Azure Container Registry
+      uses: Azure/docker-login@v1
+      with:
+        username: $(terraform output acr_username)
+        password: $(terraform output acr_password)
+        login-server: $(terraform output acr_server)
         
     # - name: Build e Push no Azure Container Registry
     #   run: |

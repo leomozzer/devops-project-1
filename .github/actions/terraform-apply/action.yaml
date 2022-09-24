@@ -28,7 +28,7 @@ runs:
     - uses: hashicorp/setup-terraform@v2
       with:
         terraform_wrapper: false
-
+        #https://stackoverflow.com/questions/69925970/how-to-save-terraform-output-variable-into-a-github-action-s-environment-variabl
 
     - name: Terraform Init
       id: init
