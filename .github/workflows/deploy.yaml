@@ -77,8 +77,8 @@ jobs:
       id: acr-username
       uses: notiz-dev/github-action-json-property@release
       with: 
-          path: ${{ github.workspace }}/terraform/terraform-main/output.json
-          prop_path: 'acr_username.value'
+        path: ${{ github.workspace }}/terraform/terraform-main/output.json
+        prop_path: 'acr_username.value'
 
     - run: echo ${{steps.acr-username.outputs.prop}} 
 
