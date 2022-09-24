@@ -75,7 +75,7 @@ jobs:
 
     - name: Read folder
       run: ls -ltr
-      working-directory: ${{ inputs.WORKING_DIR }}
+      working-directory: ${{ github.workspace }}/terraform/terraform-main/
       shell: bash
 
     - name: "Get ACR details"
