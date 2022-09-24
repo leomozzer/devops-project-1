@@ -40,15 +40,15 @@ runs:
       shell: bash
       working-directory: ${{ inputs.WORKING_DIR }}
 
-    - name: Terraform Output
-      id: output
-      run: terraform output -json > ./output.json
-      continue-on-error: false
-      shell: bash
-      working-directory: ${{ inputs.WORKING_DIR }}
+    # - name: Terraform Output
+    #   id: output
+    #   run: terraform output -json > ./output.json
+    #   continue-on-error: false
+    #   shell: bash
+    #   working-directory: ${{ inputs.WORKING_DIR }}
 
-    - name: Read folder
-      run: ls -ltr
-      working-directory: ${{ inputs.WORKING_DIR }}
-      shell: bash
+    # - name: Read folder
+    #   run: ls -ltr
+    #   working-directory: ${{ inputs.WORKING_DIR }}
+    #   shell: bash
         

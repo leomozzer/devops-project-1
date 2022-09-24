@@ -72,41 +72,50 @@ jobs:
         STORAGE_ACCOUNT_NAME: stac${{ github.job }}
         CONTAINER_NAME: "states"
         STATE_FILE: "terraform.tfstate"
+    
+    - uses: hashicorp/setup-terraform@v2
 
-    - name: Read folder
-      run: ls -ltr
+   - name: Terraform output test
+      run: |
+        output=$(terraform output acr_server)
+        echo $output
       working-directory: ${{ github.workspace }}/terraform/terraform-main/
       shell: bash
 
-    - name: "Cat ACR details"
-      run: |
-        cat ${{ github.workspace }}/terraform/terraform-main/output.json
-      continue-on-error: true
-      shell: bash
+    # - name: Read folder
+    #   run: ls -ltr
+    #   working-directory: ${{ github.workspace }}/terraform/terraform-main/
+    #   shell: bash
 
-    - name: "Cat ACR details"
-      run: |
-        cat ${{ github.workspace }}/terraform/terraform-main/output_1.json
-      continue-on-error: true
-      shell: bash
+    # - name: "Cat ACR details"
+    #   run: |
+    #     cat ${{ github.workspace }}/terraform/terraform-main/output.json
+    #   continue-on-error: true
+    #   shell: bash
 
-    - name: "Get ACR details"
-      run: |
-        getacr=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
-        echo $getacr
-      continue-on-error: true
-      shell: bash
+    # - name: "Cat ACR details"
+    #   run: |
+    #     cat ${{ github.workspace }}/terraform/terraform-main/output_1.json
+    #   continue-on-error: true
+    #   shell: bash
 
-    - name: "Get ACR details"
-      id: acr-details
-      run: |
-        echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
-      continue-on-error: true
-      shell: bash
-      working-directory: ${{ github.workspace }}/terraform/terraform-main/
+    # - name: "Get ACR details"
+    #   run: |
+    #     getacr=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
+    #     echo $getacr
+    #   continue-on-error: true
+    #   shell: bash
 
-    - name: Get ACR_USERNAME
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
+    # - name: "Get ACR details"
+    #   id: acr-details
+    #   run: |
+    #     echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+    #   continue-on-error: true
+    #   shell: bash
+    #   working-directory: ${{ github.workspace }}/terraform/terraform-main/
+
+    # - name: Get ACR_USERNAME
+    #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
 
     # - name: Get ACR_PASSWORD
     #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_PASSWORD }}"
