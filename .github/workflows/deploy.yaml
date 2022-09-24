@@ -44,45 +44,54 @@ jobs:
 
     - uses: actions/checkout@v3
 
-    # - name: "Azure setup"
-    #   uses: ./.github/actions/azure-setup
-    #   with: 
-    #     AZURE_SP: ${{ secrets.AZURE_SP }}
-    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-    #     RESOURCE_GROUP_LOCATION: "centralus"
-    #     TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
-    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+    - name: "Azure setup"
+      uses: ./.github/actions/azure-setup
+      with: 
+        AZURE_SP: ${{ secrets.AZURE_SP }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+        RESOURCE_GROUP_LOCATION: "centralus"
+        TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
+        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
 
-    # - name: "Terraform plan"
-    #   uses: ./.github/actions/terraform-plan
-    #   with:
-    #     WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
-    #     AZURE_SP: ${{ secrets.AZURE_SP }}
-    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
-    #     CONTAINER_NAME: "states"
-    #     STATE_FILE: "terraform.tfstate"
+    - name: "Terraform plan"
+      uses: ./.github/actions/terraform-plan
+      with:
+        WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
+        AZURE_SP: ${{ secrets.AZURE_SP }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+        CONTAINER_NAME: "states"
+        STATE_FILE: "terraform.tfstate"
 
-    # - name: "Terraform apply"
-    #   uses: ./.github/actions/terraform-apply
-    #   with:
-    #     WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
-    #     AZURE_SP: ${{ secrets.AZURE_SP }}
-    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
-    #     CONTAINER_NAME: "states"
-    #     STATE_FILE: "terraform.tfstate"
+    - name: "Terraform apply"
+      uses: ./.github/actions/terraform-apply
+      with:
+        WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
+        AZURE_SP: ${{ secrets.AZURE_SP }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+        CONTAINER_NAME: "states"
+        STATE_FILE: "terraform.tfstate"
 
     - name: "Get ACR details"
       id: acr-details
       run: |
-        get_acr_name=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
-        echo $get_acr_name
         echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+        echo '::set-output name=ACR_PASSWORD::$(jq -r .acr_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+        echo '::set-output name=ACR_SERVER::$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
       continue-on-error: false
       shell: bash
 
-    - name: Get color
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
+    - name: Docker Login - Azure Container Registry
+      uses: Azure/docker-login@v1
+      with:
+        username: ${{ steps.acr-details.outputs.ACR_USERNAME }}
+        password: ${{ steps.acr-details.outputs.ACR_PASSWORD }}
+        login-server: ${{ steps.acr-details.outputs.ACR_SERVER }}
         
+    - name: Build e Push no Azure Container Registry
+      run: |
+        docker build . --file Dockerfile --tag ${{ steps.acr-details.outputs.ACR_SERVER }}/api:latest
+        docker tag ${{ steps.acr-details.outputs.ACR_SERVER }}/apicontagem:latest ${{ steps.acr-details.outputs.ACR_SERVER }}/apicontagem:$(date +%s)
+        docker push ${{ steps.acr-details.outputs.ACR_SERVER }}/apicontagem
 
