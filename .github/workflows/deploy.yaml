@@ -76,11 +76,11 @@ jobs:
     - uses: hashicorp/setup-terraform@v2
 
     - name: Terraform output test
-        run: |
-          output=$(terraform output acr_server)
-          echo $output
-        working-directory: ${{ github.workspace }}/terraform/terraform-main/
-        shell: bash
+      run: |
+        output=$(terraform output acr_server)
+        echo $output
+      working-directory: ${{ github.workspace }}/terraform/terraform-main/
+      shell: bash
 
     # - name: Read folder
     #   run: ls -ltr
