@@ -79,6 +79,7 @@ jobs:
       run: |
         output=$(terraform output acr_server)
         echo $output
+        echo '::set-output name=ACR_USERNAME::$(terraform output acr_server)
       working-directory: ${{ github.workspace }}/terraform/terraform-main/
       shell: bash
 
