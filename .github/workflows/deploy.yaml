@@ -79,14 +79,12 @@ jobs:
       shell: bash
 
     - name: "Get ACR details"
-      id: acr-details
       run: |
         echo '$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
       continue-on-error: false
       shell: bash
 
     - name: "Get ACR details"
-      id: acr-details
       run: |
         getacr=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)
         echo '$getacr'
