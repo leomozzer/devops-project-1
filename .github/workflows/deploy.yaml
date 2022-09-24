@@ -90,7 +90,7 @@ jobs:
       run: |
         echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
       continue-on-error: true
-      #shell: bash
+      shell: bash
       working-directory: ${{ github.workspace }}/terraform/terraform-main/
 
     - name: Get ACR_USERNAME
