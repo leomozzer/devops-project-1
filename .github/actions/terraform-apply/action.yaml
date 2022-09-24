@@ -42,7 +42,7 @@ runs:
 
     - name: Terraform Output
       id: output
-      run: terraform output -json > ./output.json
+      run: terraform output -json > ${{ inputs.WORKING_DIR }}/output.json
       continue-on-error: false
       shell: bash
       working-directory: ${{ inputs.WORKING_DIR }}

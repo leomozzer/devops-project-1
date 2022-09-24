@@ -44,34 +44,34 @@ jobs:
 
     - uses: actions/checkout@v3
 
-    # - name: "Azure setup"
-    #   uses: ./.github/actions/azure-setup
-    #   with: 
-    #     AZURE_SP: ${{ secrets.AZURE_SP }}
-    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-    #     RESOURCE_GROUP_LOCATION: "centralus"
-    #     TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
-    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+    - name: "Azure setup"
+      uses: ./.github/actions/azure-setup
+      with: 
+        AZURE_SP: ${{ secrets.AZURE_SP }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+        RESOURCE_GROUP_LOCATION: "centralus"
+        TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
+        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
 
-    # - name: "Terraform plan"
-    #   uses: ./.github/actions/terraform-plan
-    #   with:
-    #     WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
-    #     AZURE_SP: ${{ secrets.AZURE_SP }}
-    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
-    #     CONTAINER_NAME: "states"
-    #     STATE_FILE: "terraform.tfstate"
+    - name: "Terraform plan"
+      uses: ./.github/actions/terraform-plan
+      with:
+        WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
+        AZURE_SP: ${{ secrets.AZURE_SP }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+        CONTAINER_NAME: "states"
+        STATE_FILE: "terraform.tfstate"
 
-    # - name: "Terraform apply"
-    #   uses: ./.github/actions/terraform-apply
-    #   with:
-    #     WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
-    #     AZURE_SP: ${{ secrets.AZURE_SP }}
-    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
-    #     CONTAINER_NAME: "states"
-    #     STATE_FILE: "terraform.tfstate"
+    - name: "Terraform apply"
+      uses: ./.github/actions/terraform-apply
+      with:
+        WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
+        AZURE_SP: ${{ secrets.AZURE_SP }}
+        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+        CONTAINER_NAME: "states"
+        STATE_FILE: "terraform.tfstate"
 
     - name: "Get ACR details"
       id: acr-details
