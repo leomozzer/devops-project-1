@@ -117,14 +117,14 @@ jobs:
       shell: bash
       working-directory: ${{ github.workspace }}/terraform/terraform-main/
 
-    - name: Get ACR_USERNAME
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
+    # - name: Get ACR_USERNAME
+    #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
 
-    - name: Get ACR_PASSWORD
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_PASSWORD }}"
+    # - name: Get ACR_PASSWORD
+    #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_PASSWORD }}"
 
-    - name: Get ACR_SERVER
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_SERVER }}"
+    # - name: Get ACR_SERVER
+    #   run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_SERVER }}"
 
     - name: Docker Login - Azure Container Registry
       uses: Azure/docker-login@v1
@@ -133,9 +133,9 @@ jobs:
         password: ${{ steps.acr-details.outputs.ACR_PASSWORD }}
         login-server: ${{ steps.acr-details.outputs.ACR_SERVER }}
         
-    # - name: Build e Push no Azure Container Registry
-    #   run: |
-    #     docker build . --file ${{ github.workspace }}/api/Dockerfile --tag ${{ steps.acr-details.outputs.ACR_SERVER }}/api:latest
-    #     docker tag ${{ steps.acr-details.outputs.ACR_SERVER }}/apicontagem:latest ${{ steps.acr-details.outputs.ACR_SERVER }}/apicontagem:$(date +%s)
-    #     docker push ${{ steps.acr-details.outputs.ACR_SERVER }}/apicontagem
+    - name: Build e Push no Azure Container Registry
+      run: |
+        docker build . --file ${{ github.workspace }}/api/Dockerfile --tag ${{ steps.acr-details.outputs.ACR_SERVER }}/api:latest
+        docker tag ${{ steps.acr-details.outputs.ACR_SERVER }}/api:latest ${{ steps.acr-details.outputs.ACR_SERVER }}/api:$(date +%s)
+        docker push ${{ steps.acr-details.outputs.ACR_SERVER }}/api
 
