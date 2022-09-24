@@ -82,6 +82,15 @@ jobs:
       continue-on-error: false
       shell: bash
 
+    - name: Get ACR_USERNAME
+      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
+
+    - name: Get ACR_PASSWORD
+      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_PASSWORD }}"
+
+    - name: Get ACR_SERVER
+      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_SERVER }}"
+
     - name: Docker Login - Azure Container Registry
       uses: Azure/docker-login@v1
       with:
