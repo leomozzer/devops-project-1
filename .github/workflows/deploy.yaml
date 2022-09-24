@@ -73,6 +73,11 @@ jobs:
         CONTAINER_NAME: "states"
         STATE_FILE: "terraform.tfstate"
 
+    - name: Read folder
+      run: ls -ltr
+      working-directory: ${{ inputs.WORKING_DIR }}
+      shell: bash
+
     - name: "Get ACR details"
       id: acr-details
       run: |
