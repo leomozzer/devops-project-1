@@ -80,7 +80,7 @@ jobs:
       with:
         username: ${{ steps.acr-details.outputs.ACR_USERNAME }}
         password: ${{ steps.acr-details.outputs.ACR_PASSWORD }}
-        login-server: $(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+        login-server: $(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)
         
     - name: Build e Push no Azure Container Registry
       run: |
