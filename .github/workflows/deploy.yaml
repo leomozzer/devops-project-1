@@ -56,35 +56,47 @@ jobs:
         CONTAINER_NAME: "states"
         STATE_FILE: "terraform.tfstate"
     
-    - name: "Get ACR details"
+    - name: "Get output details"
       id: acr-details
       run: |
-        echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
-        echo '::set-output name=ACR_PASSWORD::$(jq -r .acr_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
-        echo '::set-output name=ACR_SERVER::$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
-        echo "some_var=$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+        echo "ACR_USERNAME=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+        echo "ACR_PASSWORD=$(jq -r .acr_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+        echo "ACR_SERVER=$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+        echo "MYSQL_HOST=$(jq -r .mysql_host.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+        echo "MYSQL_USER=$(jq -r .administrator_login.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+        echo "MYSQL_PWD=$(jq -r .administrator_login_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+        echo "MYSQL_DATABASE=$(jq -r .mysql_database.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
       continue-on-error: true
       shell: bash
       working-directory: ${{ github.workspace }}/terraform/terraform-main/
 
-    - name: Get some_var
-      run: echo "${{ env.some_var }}"
+    - name: Make envfile
+      uses: SpicyPizza/create-envfile@v1.3
+      with:
+        envkey_APP_PORT: 80
+        envkey_MYSQL_HOST: ${{ env.MYSQL_HOST }}
+        envkey_MYSQL_USER: ${{ env.MYSQL_USER }}
+        envkey_MYSQL_PWD: ${{ env.MYSQL_PWD }}
+        envkey_MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
+        envkey_MYSQL_PORT: 3306
+        directory: ${{ github.workspace }}/api
+        file_name: .env
+        fail_on_empty: false
 
-    - name: Get ACR_USERNAME
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
-
-    - name: Get ACR_PASSWORD
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_PASSWORD }}"
-
-    - name: Get ACR_SERVER
-      run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_SERVER }}"
+    - name: "Get output details"
+      id: acr-details
+      run: |
+        cat .env
+      continue-on-error: true
+      shell: bash
+      working-directory: ${{ github.workspace }}/api
 
     - name: Docker Login - Azure Container Registry
       uses: Azure/docker-login@v1
       with:
-        username: ${{ secrets.TF_ARM_CLIENT_ID}}
-        password: ${{ secrets.TF_ARM_CLIENT_SECRET }}
-        login-server: ${{ env.some_var }}
+        username: ${{ env.ACR_USERNAME }}
+        password: ${{ env.ACR_PASSWORD }}
+        login-server: ${{ env.ACR_SERVER }}
         
     - name: Build e Push no Azure Container Registry
       run: |
