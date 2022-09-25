@@ -79,7 +79,7 @@ jobs:
       uses: Azure/docker-login@v1
       with:
         username: ${{ secrets.AZURE_CLIENT_ID }}
-        password: password: ${{ secrets.AZURE_CLIENT_SECRET }}
+        password: ${{ secrets.AZURE_CLIENT_SECRET }}
         login-server: ${{ steps.acr-details.outputs.ACR_SERVER }}
         
     - name: Build e Push no Azure Container Registry
