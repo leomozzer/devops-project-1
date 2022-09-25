@@ -79,7 +79,7 @@ jobs:
         # envkey_MYSQL_PWD: ${{ env.MYSQL_PWD }}
         # envkey_MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
         # envkey_MYSQL_PORT: 3306
-        directory: api/
+        directory: devops-project-1/api/
         file_name: .env
         fail_on_empty: true
 
