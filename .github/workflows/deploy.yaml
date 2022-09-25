@@ -80,7 +80,7 @@ jobs:
       with:
         username: ${{ secrets.TF_ARM_CLIENT_ID}}
         password: ${{ secrets.TF_ARM_CLIENT_SECRET }}
-        login-server: ${{ steps.acr-details.outputs.ACR_SERVER }}
+        login-server: sdtfyphacr.azurecr.io#${{ steps.acr-details.outputs.ACR_SERVER }}
         
     - name: Build e Push no Azure Container Registry
       run: |
