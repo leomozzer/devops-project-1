@@ -1,0 +1,10 @@
+#App
+APP_PORT=80
+
+
+#MySql
+MYSQL_HOST="gmckaiy.mysql.database.azure.com"
+MYSQL_USER="mysqladminun@gmckaiy"
+MYSQL_PWD="H@Sh1CoR3!"
+MYSQL_DATABASE="gmckaiy"
+MYSQL_PORT=3306
