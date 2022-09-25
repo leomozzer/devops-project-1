@@ -84,7 +84,6 @@ jobs:
         fail_on_empty: false
 
     - name: "Get output details"
-      id: acr-details
       run: |
         cat .env
       continue-on-error: true
