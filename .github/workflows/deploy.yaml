@@ -27,54 +27,54 @@ jobs:
 
     - uses: actions/checkout@v3
 
-    - name: "Azure setup"
-      uses: ./.github/actions/azure-setup
-      with: 
-        AZURE_SP: ${{ secrets.AZURE_SP }}
-        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-        RESOURCE_GROUP_LOCATION: "centralus"
-        TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
-        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+    # - name: "Azure setup"
+    #   uses: ./.github/actions/azure-setup
+    #   with: 
+    #     AZURE_SP: ${{ secrets.AZURE_SP }}
+    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+    #     RESOURCE_GROUP_LOCATION: "centralus"
+    #     TAGS: '"UseCase=Terraform" "Stage=${{ github.job }}" "Deployed=GitHub Actions" Repository=${{ steps.split.outputs._1 }} "RunNumber=${{ github.run_number }}"'
+    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
 
-    - name: "Terraform plan"
-      uses: ./.github/actions/terraform-plan
-      with:
-        WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
-        AZURE_SP: ${{ secrets.AZURE_SP }}
-        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
-        CONTAINER_NAME: "states"
-        STATE_FILE: "terraform.tfstate"
+    # - name: "Terraform plan"
+    #   uses: ./.github/actions/terraform-plan
+    #   with:
+    #     WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
+    #     AZURE_SP: ${{ secrets.AZURE_SP }}
+    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+    #     CONTAINER_NAME: "states"
+    #     STATE_FILE: "terraform.tfstate"
 
-    - name: "Terraform apply"
-      uses: ./.github/actions/terraform-apply
-      with:
-        WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
-        AZURE_SP: ${{ secrets.AZURE_SP }}
-        RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
-        STORAGE_ACCOUNT_NAME: stac${{ github.job }}
-        CONTAINER_NAME: "states"
-        STATE_FILE: "terraform.tfstate"
+    # - name: "Terraform apply"
+    #   uses: ./.github/actions/terraform-apply
+    #   with:
+    #     WORKING_DIR: ${{ github.workspace }}/terraform/terraform-main
+    #     AZURE_SP: ${{ secrets.AZURE_SP }}
+    #     RESOURCE_GROUP_NAME: tfstates-${{ steps.split.outputs._1 }}-${{ github.job }}
+    #     STORAGE_ACCOUNT_NAME: stac${{ github.job }}
+    #     CONTAINER_NAME: "states"
+    #     STATE_FILE: "terraform.tfstate"
     
-    - name: "Get output details"
-      id: acr-details
-      run: |
-        echo "ACR_USERNAME=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
-        echo "ACR_PASSWORD=$(jq -r .acr_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
-        echo "ACR_SERVER=$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
-        echo "MYSQL_HOST=$(jq -r .mysql_host.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
-        echo "MYSQL_USER=$(jq -r .administrator_login.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
-        echo "MYSQL_PWD=$(jq -r .administrator_login_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
-        echo "MYSQL_DATABASE=$(jq -r .mysql_database.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
-      continue-on-error: true
-      shell: bash
-      working-directory: ${{ github.workspace }}/terraform/terraform-main/
+    # - name: "Get output details"
+    #   id: acr-details
+    #   run: |
+    #     echo "ACR_USERNAME=$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+    #     echo "ACR_PASSWORD=$(jq -r .acr_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+    #     echo "ACR_SERVER=$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+    #     echo "MYSQL_HOST=$(jq -r .mysql_host.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+    #     echo "MYSQL_USER=$(jq -r .administrator_login.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+    #     echo "MYSQL_PWD=$(jq -r .administrator_login_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+    #     echo "MYSQL_DATABASE=$(jq -r .mysql_database.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
+    #   continue-on-error: true
+    #   shell: bash
+    #   working-directory: ${{ github.workspace }}/terraform/terraform-main/
 
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
         DEBUG: 80
-        SOME_API_KEY: ${{ env.MYSQL_HOST }}
+        SOME_API_KEY: "hi"
         # envkey_MYSQL_USER: ${{ env.MYSQL_USER }}
         # envkey_MYSQL_PWD: ${{ env.MYSQL_PWD }}
         # envkey_MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
@@ -85,7 +85,7 @@ jobs:
 
     - name: "Get output details"
       run: |
-        cat .env
+        ls -ltr
       continue-on-error: true
       shell: bash
       working-directory: ${{ github.workspace }}/api
