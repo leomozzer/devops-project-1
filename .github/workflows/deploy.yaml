@@ -78,6 +78,14 @@ jobs:
         find: '/home'        # we want to remove ref/heads/ from source 
         replace: 'home'
 
+    - name: "Get output details"
+      run: |
+        ls -ltr
+        echo  ${{ steps.clean-workspace.outputs }}
+      continue-on-error: true
+      shell: bash
+      working-directory: api/
+
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
@@ -91,13 +99,13 @@ jobs:
         file_name: .env
         fail_on_empty: true
 
-    - name: "Get output details"
-      run: |
-        ls -ltr
-        echo  ${{ steps.clean-workspace.outputs }}
-      continue-on-error: true
-      shell: bash
-      working-directory: api/
+    # - name: "Get output details"
+    #   run: |
+    #     ls -ltr
+    #     echo  ${{ steps.clean-workspace.outputs }}
+    #   continue-on-error: true
+    #   shell: bash
+    #   working-directory: api/
 
     # - name: Docker Login - Azure Container Registry
     #   uses: Azure/docker-login@v1
