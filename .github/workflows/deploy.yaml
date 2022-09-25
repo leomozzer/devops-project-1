@@ -81,7 +81,7 @@ jobs:
         # envkey_MYSQL_PORT: 3306
         directory: ${{ github.workspace }}/api
         file_name: .env
-        fail_on_empty: false
+        fail_on_empty: true
 
     # - name: "Get output details"
     #   run: |
