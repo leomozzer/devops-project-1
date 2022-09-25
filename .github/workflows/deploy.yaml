@@ -80,12 +80,12 @@ jobs:
       with:
         username: ${{ secrets.TF_ARM_CLIENT_ID}}
         password: ${{ secrets.TF_ARM_CLIENT_SECRET }}
-        login-server: sdtfyphacr.azurecr.io #${{ steps.acr-details.outputs.ACR_SERVER }}
+        login-server: ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io #${{ steps.acr-details.outputs.ACR_SERVER }}
         
     - name: Build e Push no Azure Container Registry
       run: |
         cd api/
-        docker build . --file Dockerfile --tag sdtfyphacr.azurecr.io/api:latest
-        docker tag sdtfyphacr.azurecr.io/api:latest sdtfyphacr.azurecr.io/api:$(date +%s)
-        docker push sdtfyphacr.azurecr.io/api
+        docker build . --file Dockerfile --tag ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:latest
+        docker tag ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:latest ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:$(date +%s)
+        docker push ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api
 
