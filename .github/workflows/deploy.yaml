@@ -62,9 +62,13 @@ jobs:
         echo '::set-output name=ACR_USERNAME::$(jq -r .acr_username.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
         echo '::set-output name=ACR_PASSWORD::$(jq -r .acr_password.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
         echo '::set-output name=ACR_SERVER::$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)'
+        echo "some_var=$(jq -r .acr_server.value ${{ github.workspace }}/terraform/terraform-main/output.json)" >> $GITHUB_ENV
       continue-on-error: true
       shell: bash
       working-directory: ${{ github.workspace }}/terraform/terraform-main/
+
+    - name: Get some_var
+      run: echo "${{ env.some_var }}"
 
     - name: Get ACR_USERNAME
       run: echo "ACR NAME -> ${{ steps.acr-details.outputs.ACR_USERNAME }}"
@@ -80,7 +84,7 @@ jobs:
       with:
         username: ${{ secrets.TF_ARM_CLIENT_ID}}
         password: ${{ secrets.TF_ARM_CLIENT_SECRET }}
-        login-server: "${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io"
+        login-server: ${{ env.some_var }}
         
     - name: Build e Push no Azure Container Registry
       run: |
