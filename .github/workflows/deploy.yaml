@@ -73,34 +73,34 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
-        envkey_APP_PORT: 80
-        envkey_MYSQL_HOST: ${{ env.MYSQL_HOST }}
-        envkey_MYSQL_USER: ${{ env.MYSQL_USER }}
-        envkey_MYSQL_PWD: ${{ env.MYSQL_PWD }}
-        envkey_MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
-        envkey_MYSQL_PORT: 3306
+        envkey_DEBUG: 80
+        envkey_SOME_API_KEY: ${{ env.MYSQL_HOST }}
+        # envkey_MYSQL_USER: ${{ env.MYSQL_USER }}
+        # envkey_MYSQL_PWD: ${{ env.MYSQL_PWD }}
+        # envkey_MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
+        # envkey_MYSQL_PORT: 3306
         directory: ${{ github.workspace }}/api
         file_name: .env
         fail_on_empty: false
 
-    - name: "Get output details"
-      run: |
-        cat .env
-      continue-on-error: true
-      shell: bash
-      working-directory: ${{ github.workspace }}/api
+    # - name: "Get output details"
+    #   run: |
+    #     cat .env
+    #   continue-on-error: true
+    #   shell: bash
+    #   working-directory: ${{ github.workspace }}/api
 
-    - name: Docker Login - Azure Container Registry
-      uses: Azure/docker-login@v1
-      with:
-        username: ${{ env.ACR_USERNAME }}
-        password: ${{ env.ACR_PASSWORD }}
-        login-server: ${{ env.ACR_SERVER }}
+    # - name: Docker Login - Azure Container Registry
+    #   uses: Azure/docker-login@v1
+    #   with:
+    #     username: ${{ env.ACR_USERNAME }}
+    #     password: ${{ env.ACR_PASSWORD }}
+    #     login-server: ${{ env.ACR_SERVER }}
         
-    - name: Build e Push no Azure Container Registry
-      run: |
-        cd api/
-        docker build . --file Dockerfile --tag ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:latest
-        docker tag ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:latest ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:$(date +%s)
-        docker push ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api
+    # - name: Build e Push no Azure Container Registry
+    #   run: |
+    #     cd api/
+    #     docker build . --file Dockerfile --tag ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:latest
+    #     docker tag ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:latest ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api:$(date +%s)
+    #     docker push ${{ steps.acr-details.outputs.ACR_USERNAME }}.azurecr.io/api
 
