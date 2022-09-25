@@ -95,17 +95,16 @@ jobs:
         # envkey_MYSQL_PWD: ${{ env.MYSQL_PWD }}
         # envkey_MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
         # envkey_MYSQL_PORT: 3306
-        directory: ${{ steps.clean-workspace.outputs }}/api
+        directory: ${{ steps.clean-workspace.outputs.value }}/api
         file_name: .env
         fail_on_empty: true
 
-    # - name: "Get output details"
-    #   run: |
-    #     ls -ltr
-    #     echo  ${{ steps.clean-workspace.outputs }}
-    #   continue-on-error: true
-    #   shell: bash
-    #   working-directory: api/
+    - name: "Get output details"
+      run: |
+        cat .env
+      continue-on-error: true
+      shell: bash
+      working-directory: api/
 
     # - name: Docker Login - Azure Container Registry
     #   uses: Azure/docker-login@v1
