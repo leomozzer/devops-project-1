@@ -73,8 +73,8 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
-        envkey_DEBUG: 80
-        envkey_SOME_API_KEY: ${{ env.MYSQL_HOST }}
+        DEBUG: 80
+        SOME_API_KEY: ${{ env.MYSQL_HOST }}
         # envkey_MYSQL_USER: ${{ env.MYSQL_USER }}
         # envkey_MYSQL_PWD: ${{ env.MYSQL_PWD }}
         # envkey_MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
