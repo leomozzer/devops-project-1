@@ -110,7 +110,7 @@ jobs:
     - name: "Get output details"
       run: |
          New-Item -Path ${{ github.workspace }}/api -Name "env.txt" -Value "DEBUG=80"
-         Add-Content -Path '${{ github.workspace }}/api/env.txt' 'SOME_API_KEY="ola"'
+         Add-Content -Path '${{ github.workspace }}/api/env.txt' '`r`nSOME_API_KEY="ola"'
       continue-on-error: true
       shell: pwsh
       working-directory: ${{ github.workspace }}/api
